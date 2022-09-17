@@ -7,6 +7,12 @@ description = "Easy toy windowing system for learning purposes only"
 license = "MIT"
 resolver = "2"
 readme = "README.md"
+homepage = "https://github.com/MrTitanHearted/dgews"
+repository = "https://github.com/MrTitanHearted/dgews"
+categories = [
+    "GUI",
+    "Win32",
+]
 
 [profile.dev]
 opt-level = 0
