@@ -13,6 +13,31 @@ use winapi::{
 
 use crate::prelude::*;
 
+/// Central point of this crate. A Manager processes the events and messages of every window. It gives some miscellaneous information as well such as the time.
+/// 
+/// # Example
+/// 
+/// ```
+/// let mut manager = Manager::new(WindowBuilder::default());
+/// 
+/// manager.run(|events, control_flow, manager| {
+///     match events => {
+///         Events::WindowEvent { id, event } match event {
+///             WindowEvents::Close => {
+///                 if id == manager.window().get_id() {
+///                     *control_flow = ControlFlow::Exit;
+///                 }
+///             },
+///             _=> {}
+///         }
+///         _=> {}
+///     }
+/// 
+///     if manager.get_key(ESCAPE) == Action::Press {
+///         manager.close();
+///     }
+/// });
+/// ```
 #[derive(Debug)]
 pub struct Manager {
     windows: HashMap<String, Window>,
@@ -43,6 +68,17 @@ impl Manager {
     #[allow(non_upper_case_globals)]
     const DGEWindowClassExWName: &'static str = "DGEWindowClassExWName";
 
+    /// Creates a new instance of the Window Manager. Unlikely to default(), you have to give one WindowBuilder sturct.
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let manager = Manager::new(WindowBuilder::default()
+    ///     .with_title("Hello, World!")
+    ///     .with_dimensions(800, 640)
+    ///     .with_pos(60, 6)
+    ///     .with_icon("path\\to\\your\\icon\\.ico"));
+    /// ```
     pub fn new(builder: WindowBuilder) -> Self {
         let mut builders = HashMap::new();
         builders.insert(Self::DGEWindowClassExWName.to_string(), builder);
@@ -52,27 +88,95 @@ impl Manager {
         };
     }
 
+    /// Inserts a new window. You have to give each new extra window a class which is basically the same as 'key' in HashMap<T>. There should be no white spaces.
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let manager = Manager::new(WindowBuilder::default())
+    ///     .ass_window("MyWindow", WindowBuilder::default()
+    ///         .with_title("My Own new Extra WiNdOw")
+    ///         .with_theme(Theme::Dark));
+    ///     .ass_window("AnotherWindow", WindowBuilder::default()
+    ///         .with_title("Another tiny one as well")
+    ///         .with_dimensions(60, 60));
+    /// ```
     pub fn add_window(mut self, class: &str, builder: WindowBuilder) -> Self {
         self.builders.insert(class.to_string(), builder);
         return self;
     }
 
+    /// Returns a reference to the default window of the manager
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let window = manager.window();
+    /// println!("A window with id: {} has title of {}", window.get_id(), window.get_title());
+    /// ```
     pub fn window(&self) -> &Window {
         return self.get_window(Self::DGEWindowClassExWName);
     }
 
+    /// Returns a reference to the mut default window of the manager
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let window = manager.mut_window();
+    /// println!("A window with id: {} has title of {}", window.get_id(), window.get_title());
+    /// 
+    /// window.set_title("New Title");
+    /// println!("A window with id: {} has title of {}", window.get_id(), window.get_title());
+    /// ```
     pub fn mut_window(&mut self) -> &mut Window {
         return self.get_mut_window(Self::DGEWindowClassExWName);
     }
 
+    /// Returns a reference to a window with a specified class. Panics if there is no a window with that class!
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let window = manager.get_window("YourWindowClassName");
+    /// println!("A window with id: {} has title of {}", window.get_id(), window.get_title());
+    /// ```
     pub fn get_window(&self, class: &str) -> &Window {
         return self.windows.get(class).unwrap();
     }
 
+    /// Returns a reference to a mut window with a specified class. Panics if there is no a window with that class!
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let window = manager.get_mut_window("YourWindowClassName");
+    /// println!("A window with id: {} has title of {}", window.get_id(), window.get_title());
+    /// 
+    /// window.set_title("New Title");
+    /// println!("A window with id: {} has title of {}", window.get_id(), window.get_title());
+    /// ```
     pub fn get_mut_window(&mut self, class: &str) -> &mut Window {
         return self.windows.get_mut(class).unwrap();
     }
 
+    /// Runs the program. This function takes a closure as its parameter which then gives back events, control flow and manager itself. The windows are processed in their own threads outside the main thread so that your program will not wait until the events are finished.
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let mut manager = Manager::new(WindowBuilder::default());
+    /// 
+    /// manager.run(|events, control_flow, manager| {
+    ///     match events {
+    ///         Events::WindowEvent { id, event } => match event {
+    ///             WindowEvents::Close => if id == manager.window().get_id() => *control_flow = ControlFlow::Exit,
+    ///             _=> {}
+    ///         }
+    ///         _=> {}
+    ///     }
+    /// });
+    /// ```
     pub fn run<T>(&mut self, mut func: T)
     where
         T: FnMut(Events, &mut ControlFlow, &mut Manager),
@@ -450,10 +554,30 @@ impl Manager {
         self.windows.insert(wnd.get_class_name(), wnd);
     }
 
+    /// Retrieves typed Keyboard buttons and keys. (Case sensitie!)
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// if manager.get_char(u) {
+    ///     println!("small case u char is typed");
+    /// } else if manager.get_char(T) {
+    ///     println!("capital case T char is typed");
+    /// }
+    /// ```
     pub fn get_char(&self, char: usize) -> bool {
         return self.keyboard.is_char(char);
     }
 
+    /// Retrieves the state of the Keyboard buttons and keys. (Not case sensitive!)
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// if manager.get_key(TAB) == Action::Down {
+    ///     println!("Tabbar is being pressed!");
+    /// }
+    /// ```
     pub fn get_key(&self, keycode: usize) -> Action {
         return if self.keyboard.is_down(keycode) && !self.keyboard.is_changed(keycode) {
             Action::Down
@@ -466,6 +590,15 @@ impl Manager {
         };
     }
 
+    /// Retrieves the state of the mouse buttons
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// if manager.get_mouse_button(Button::MBUTTON) == Action::Press {
+    ///     *control_flow = ControlFlow::Exit;
+    /// } 
+    /// ```
     pub fn get_mouse_button(&self, button: usize) -> Action {
         match button {
             Button::LBUTTON => { 
@@ -542,10 +675,26 @@ impl Manager {
         return self.receiver.try_recv();
     }
 
+    /// Sends the Close message to the Events queue
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// if manager.get_key(Key::ESCAPE) == Action::Release {
+    ///     manager.close();
+    /// }
+    /// ```
     pub fn close(&self) {
         self.send(Events::WindowEvent { id: 0usize, event: WindowEvents::Close });
     }
 
+    /// Retrieves the delta time and current frame
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// println!("Time is {}", manager.time().1);
+    /// ```
     pub fn time(&mut self) -> (f32, f32) {
         return (self.timer.dt(), self.timer.current_frame);
     }

@@ -1,12 +1,35 @@
+/// Keycode of mouse buttons
+/// 
+/// # Example
+/// 
+/// ```
+/// if manager.get_mouse_button(Button::LBUTTON) == Action::Release {
+///     println!("Left mouse button is released");
+/// }
+/// ```
 #[allow(non_snake_case, non_upper_case_globals)]
 pub mod Button {
+    /// Keycode of left mouse button
     pub const LBUTTON: usize = 0x01;
+    /// Keycode of right mouse button
     pub const RBUTTON: usize = 0x02;
+    /// Keycode of middle mouse button
     pub const MBUTTON: usize = 0x04;
+    /// Keycode of x mouse button 1
     pub const XBUTTON1: usize = 0x05;
+    /// Keycode of x mouse button 2
     pub const XBUTTON2: usize = 0x06;
 }
 
+/// Keycodes of the keys in the keyboard
+/// 
+/// # Example
+/// 
+/// ```
+/// if manager.get_key(Y) == Action::Down {
+///     println!("Y key is down");
+/// }
+/// ```
 #[allow(non_snake_case, non_upper_case_globals)]
 pub mod Key {
     pub const CANCEL: usize = 0x03;

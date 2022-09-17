@@ -6,6 +6,14 @@ use winapi::{
 
 use crate::prelude::*;
 
+/// A handle that holds information of a window
+/// 
+/// # Example 
+/// 
+/// ```
+/// let window = Window::default();
+/// assert_eq!(window.get_title(), String::from("Direct Game Engine Window"));
+/// ```
 #[derive(Debug, Clone, PartialEq)]
 pub struct Window {
     pub(crate) hwnd: HWND,
@@ -26,12 +34,32 @@ impl Default for Window {
 }
 
 impl Window {
+    /// Creates a new handle with an id
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let window = Window::new(8);
+    /// assert_eq!(window.get_title(), String::from("Direct Game Engine Window"));
+    /// assert_eq!(window.get_id(), 8);
+    /// ```
     pub fn new(id: usize) -> Self {
         let mut window: Self = Self::default();
         window.hwnd = id as HWND;
         return window;
     }
 
+    /// Sets the title of that window
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let mut window = Window::default();
+    /// assert_eq!(window.get_title(), String::from("Direct Game Engine Window"));
+    /// 
+    /// window.set_title("Hello, World!");
+    /// assert_eq!(window.get_title(), String::from("Hello, World!"));
+    /// ```
     pub fn set_title(&mut self, title: &str) {
         self.title = title.to_owned();
         unsafe {
@@ -39,12 +67,31 @@ impl Window {
         }
     }
 
-    pub fn set_icon(&mut self, path: &str) {
+    /// Sets the icon of the window. (It does not change its icon in properties, only in taskbar and titlebar)
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let window = Window::default();
+    /// window.set_icon("path\\to\\your\\icon\\.ico");
+    /// ```
+    pub fn set_icon(&self, path: &str) {
         unsafe {
             SetClassLongPtrW(self.hwnd, GCLP_HICON, load_icon(path) as isize);
         }
     }
 
+    /// Sets the position of the window
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let mut window = Window::default();
+    /// assert_eq!(window.get_pos.x, 0); assert_eq!(window.get_pos.y, 0);
+    /// 
+    /// window.set_position(Point::new(100, 200));
+    /// assert_eq!(window.get_pos.x, 100); assert_eq!(window.get_pos.y, 200);
+    /// ```
     pub fn set_pos(&mut self, x: i32, y: i32) {
         self.pos = Point::new(x, y);
         unsafe {
@@ -60,6 +107,17 @@ impl Window {
         }
     }
 
+    /// Sets the size of the window
+    /// 
+    /// # Example
+    ///
+    /// ```
+    /// let mut window = Window::default();
+    /// assert_eq!(window.get_size().width, 800); assert_eq!(window.get_size().height, 640);
+    /// 
+    /// window.set_size(Size::new(1024, 768));
+    /// assert_eq!(window.get_size().width, 1024); assert_eq!(window.get_size().height, 768);
+    /// ```
     pub fn set_size(&mut self, width: i32, height: i32) {
         self.size = Size::new(width, height);
         unsafe {
@@ -75,10 +133,26 @@ impl Window {
         }
     }
 
+    /// Returns the id of the window
+    /// 
+    /// # Example
+    ///
+    /// ```
+    /// let window = Window::default();
+    /// assert_eq!(window.get_id(), 0); // The id of the window is 0 by default.
+    /// ```
     pub fn get_id(&self) -> usize {
         return self.hwnd as usize;
     }
 
+    /// Returns the title of the window
+    /// 
+    /// # Example
+    ///
+    /// ```
+    /// let window = Window::default();
+    /// assert_eq!(window.get_title(), String::from("Direct Game Engine Window")); // The title of the window is "Direct Game Engine Window" by default.
+    /// ```
     pub fn get_title(&self) -> String {
         return self.title.clone();
     }
@@ -88,30 +162,86 @@ impl Window {
         return wchar(&self.title);
     }
 
+    /// Returns the position of the window
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let window = Window::default();
+    /// assert_eq!(window.get_position().x, 0); assert_eq!(window.get_position().y, 0);
+    /// ```
     pub fn get_pos(&self) -> Point {
         return self.pos;
     }
 
+    /// Return the x position of the window
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let window = Window::default();
+    /// assert_eq!(window.get_x(), 0); // The x position of the window is 0i32 by default.
+    /// ```
     pub fn get_x(&self) -> i32 {
         return self.pos.x;
     }
 
+    /// Return the y position of the window
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let window = Window::default();
+    /// assert_eq!(window.get_y(), 0); // The y position of the window is 0i32 by default.           
+    /// ```
     pub fn get_y(&self) -> i32 {
         return self.pos.y;
     }
 
+    /// Returns the size of the window
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let window = Window::default();
+    /// assert_eq!(window.get_size().x, 800); assert_eq!(window.get_size().height, 640);
+    /// ```
     pub fn get_size(&self) -> Size {
         return self.size;
     }
 
+    /// Returns the width of the window
+    /// 
+    /// # Example
+    ///
+    /// ```
+    /// let window = Window::default();
+    /// assert_eq!(window.get_width(), 800); // The width of the window is 800i32 by default.
+    /// ```
     pub fn get_width(&self) -> i32 {
         return self.size.width;
     }
 
+    /// Returns the height of the window 
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let window = Window::default();
+    /// assert_eq!(window.get_height(), 640); // The height of the window is 600i32 by default
+    /// ```
     pub fn get_height(&self) -> i32 {
         return self.size.height;
     }
 
+    /// Creates a new window with the given window handle
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let hwnd = CreateWindowExW(0, "class", "Direct Game Engine Window", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 800, 640, null_mut(), null_mut(), null_mut());
+    /// let window = window::from(hwnd);
+    /// ```
     pub(crate) fn from(hwnd: HWND) -> Self {
         let title = unsafe {
             let mut title = Vec::with_capacity(GetWindowTextLengthW(hwnd) as usize + 1usize);
@@ -133,6 +263,14 @@ impl Window {
         };
     }
 
+    /// Retrieves the class of the window
+    /// 
+    /// # Example 
+    ///
+    /// ```
+    /// let window = Window::default();
+    /// assert_eq!(window.get_class_name(), String::new()); // Window class is empty String by default.
+    /// ```
     pub fn get_class_name(&self) -> String {
         unsafe {
             let mut class = Vec::with_capacity(512);
