@@ -32,16 +32,10 @@ winapi = { version = "0.3.9", features = [
 default-target = "x86_64-pc-windows-msvc"
 
 targets = [
-    "aarch64-unknown-linux-gnu",
-    "i686-unknown-linux-gnu",
     "i686-pc-windows-gnu",
     "i686-pc-windows-msvc",
     "x86_64-pc-windows-msvc",
     "x86_64-pc-windows-gnu",
-    "x86_64-pc-windows-gnullvm",
-    "x86_64-unknown-windows-gnu",
-    "aarch64-unknown-windows-gnu",
-    "aarch64-unknown-windows-msvc",
 ]
 
 cargo-args = ["-Z", "build-std"]
