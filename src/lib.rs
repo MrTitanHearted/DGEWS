@@ -44,7 +44,6 @@
 //! });
 //! ```
 
-pub(crate) extern crate winapi;
 pub(crate) mod keyboard;
 pub(crate) mod keystates;
 pub(crate) mod mouse;
@@ -59,7 +58,6 @@ pub mod window;
 pub mod windowbuilder;
 
 pub mod prelude {
-    pub(crate) extern crate winapi;
     pub(crate) use super::keyboard::*;
     pub(crate) use super::keystates::*;
     pub(crate) use super::mouse::*;
