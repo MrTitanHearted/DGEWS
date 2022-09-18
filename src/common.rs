@@ -276,8 +276,8 @@ impl Astring {
 ///
 /// // where func uses a constant pointer to Wstring
 /// ```
-pub fn wchar(data: &str) -> *mut u16 {
-    return Wstring::from(data).as_mut_ptr();
+pub fn wchar(data: &str) -> *const u16 {
+    return Wstring::from(data).as_ptr();
 }
 
 /// Creates and returns a pointer to Astring
@@ -292,8 +292,8 @@ pub fn wchar(data: &str) -> *mut u16 {
 ///
 /// // where func uses a constant pointer to Astring
 /// ```
-pub fn achar(data: &str) -> *mut i8 {
-    return Astring::from(data).as_mut_ptr();
+pub fn achar(data: &str) -> *const i8 {
+    return Astring::from(data).as_ptr();
 }
 
 /// A struct for holding width and height information for Window or WindowBuilder
