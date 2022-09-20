@@ -4,7 +4,7 @@ use crate::prelude::*;
 /// 
 /// # Example
 /// 
-/// ```
+/// ```ignore
 /// let window_builder = WindowBuilder::new();
 /// assert_eq!(&window_builder.get_title(), "Direct Game Engine Window");
 /// assert_eq!(&window_builder.get_icon(), "");
@@ -38,7 +38,7 @@ impl WindowBuilder {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window_builder = WindowBuilder::new();
     /// assert_eq!(window_builder.get_size(), Size::new(800, 640));
     /// ```
@@ -50,7 +50,7 @@ impl WindowBuilder {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window_builder = WindowBuilder::new();
     /// assert_eq!(&window_builder.get_title(), "Direct Game Engine Window");
     /// ```
@@ -62,7 +62,7 @@ impl WindowBuilder {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window_builder = WindowBuilder::new();
     /// assert_eq!(&window_builder.get_icon(), "");
     /// ```
@@ -74,7 +74,7 @@ impl WindowBuilder {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window_builder = WindowBuilder::new();
     /// func(window_builder.title());
     /// 
@@ -88,7 +88,7 @@ impl WindowBuilder {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window_builder = WindowBuilder::new();
     /// func(window_builder.icon());
     /// 
@@ -102,7 +102,7 @@ impl WindowBuilder {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window_builder = WindowBuilder::new();
     /// assert_eq!(window_builder.get_position(), Point::default());
     /// ```
@@ -114,7 +114,7 @@ impl WindowBuilder {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window_builder = WindowBuilder::new();
     /// assert_eq!(window_builder.get_x(), 0);
     /// ```
@@ -126,7 +126,7 @@ impl WindowBuilder {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window_builder = WindowBuilder::new();
     /// assert_eq!(window_builder.get_y(), 0);
     /// ```
@@ -137,7 +137,7 @@ impl WindowBuilder {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window_builder = WindowBuilder::new();
     /// assert_eq!(window_builder.get_size(), Size::new(800, 640));
     /// ```
@@ -149,7 +149,7 @@ impl WindowBuilder {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window_builder = WindowBuilder::new();
     /// assert_eq!(window_builder.get_width(), 800);
     /// ```
@@ -161,7 +161,7 @@ impl WindowBuilder {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window_builder = WindowBuilder::new();
     /// assert_eq!(window_builder.get_height(), 640);
     /// ```
@@ -173,7 +173,7 @@ impl WindowBuilder {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window_builder = WindowBuilder::new();
     /// assert_eq!(window_builder.get_theme(), Theme::default());
     /// ```
@@ -198,7 +198,7 @@ impl WindowBuilder {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window_builder = WindowBuilder::new().with_icon("assets/icon.png");    
     /// assert_eq!(&window_builder.get_icon(), "assets/icon.png");
     /// ```
@@ -211,7 +211,7 @@ impl WindowBuilder {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window_builder = WindowBuilder::new().with_pos(Point::new(60, 50));
     /// assert_eq!(window_builder.get_pos(), Point::new(60, 50));
     /// ```
@@ -224,7 +224,7 @@ impl WindowBuilder {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window_builder = WindowBuilder::new().with_size(Size::new(1024, 768));
     /// assert_eq!(window_builder.get_size(), Size::new(1024, 768));
     /// ```
@@ -237,7 +237,7 @@ impl WindowBuilder {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window_builder = WindowBuilder::new().with_resizable(true);
     /// assert_eq!(window_builder.is_resizable(), true);
     /// ```
@@ -250,7 +250,7 @@ impl WindowBuilder {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window_builder = WindowBuilder::new().with_theme(Theme::Dark);
     /// assert_eq!(window_builder.get_theme(), Theme::Dark);
     /// ```
@@ -263,7 +263,7 @@ impl WindowBuilder {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let mut window_builder = WindowBuilder::new();
     /// assert_eq!(window_builder.is_resizable(), false);
     /// 

@@ -1,7 +1,7 @@
 /// Control flow of the Manager.
 /// # Example
 /// 
-/// ```
+/// ```ignore
 /// let mut manager = Manager::new(WindowBuilder::default());
 /// 
 /// manager.run(|events, control_flow, _| {

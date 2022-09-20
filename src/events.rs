@@ -4,7 +4,7 @@ use crate::common::Point;
 /// 
 /// # Example
 /// 
-/// ```
+/// ```ignore
 /// if manager.get_key(A) == Action::Release {
 ///     println!("A key is released");
 /// }
@@ -25,7 +25,7 @@ pub enum Action {
 /// 
 /// # Example
 /// 
-/// ```
+/// ```ignore
 /// let mut manager = Manager::new(WindowBuilder::default());
 /// 
 /// manager.run(|events, control_flow, _| {
@@ -58,7 +58,7 @@ pub enum Events {
 /// 
 /// # Example
 /// 
-/// ```
+/// ```ignore
 /// let mut manager = Manager::new(WindowBuilder::default());
 /// 
 /// manager.run(|events, control_flow, _| {
@@ -134,7 +134,7 @@ pub enum KeyboardEvents {
 /// 
 /// # Example
 /// 
-/// ```
+/// ```ignore
 /// let mut manager = Manager::new(WindowBuilder::default());
 /// 
 /// manager.run(|events, control_flow, _| {

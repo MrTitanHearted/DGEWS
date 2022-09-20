@@ -10,7 +10,7 @@ use crate::prelude::*;
 /// 
 /// # Example 
 /// 
-/// ```
+/// ```ignore
 /// let window = Window::default();
 /// assert_eq!(window.get_title(), String::from("Direct Game Engine Window"));
 /// ```
@@ -38,7 +38,7 @@ impl Window {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window = Window::new(8);
     /// assert_eq!(window.get_title(), String::from("Direct Game Engine Window"));
     /// assert_eq!(window.get_id(), 8);
@@ -53,7 +53,7 @@ impl Window {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let mut window = Window::default();
     /// assert_eq!(window.get_title(), String::from("Direct Game Engine Window"));
     /// 
@@ -71,7 +71,7 @@ impl Window {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window = Window::default();
     /// window.set_icon("path\\to\\your\\icon\\.ico");
     /// ```
@@ -85,7 +85,7 @@ impl Window {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let mut window = Window::default();
     /// assert_eq!(window.get_pos.x, 0); assert_eq!(window.get_pos.y, 0);
     /// 
@@ -111,7 +111,7 @@ impl Window {
     /// 
     /// # Example
     ///
-    /// ```
+    /// ```ignore
     /// let mut window = Window::default();
     /// assert_eq!(window.get_size().width, 800); assert_eq!(window.get_size().height, 640);
     /// 
@@ -137,7 +137,7 @@ impl Window {
     /// 
     /// # Example
     ///
-    /// ```
+    /// ```ignore
     /// let window = Window::default();
     /// assert_eq!(window.get_id(), 0); // The id of the window is 0 by default.
     /// ```
@@ -149,7 +149,7 @@ impl Window {
     /// 
     /// # Example
     ///
-    /// ```
+    /// ```ignore
     /// let window = Window::default();
     /// assert_eq!(window.get_title(), String::from("Direct Game Engine Window")); // The title of the window is "Direct Game Engine Window" by default.
     /// ```
@@ -166,7 +166,7 @@ impl Window {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window = Window::default();
     /// assert_eq!(window.get_position().x, 0); assert_eq!(window.get_position().y, 0);
     /// ```
@@ -178,7 +178,7 @@ impl Window {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window = Window::default();
     /// assert_eq!(window.get_x(), 0); // The x position of the window is 0i32 by default.
     /// ```
@@ -190,7 +190,7 @@ impl Window {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window = Window::default();
     /// assert_eq!(window.get_y(), 0); // The y position of the window is 0i32 by default.           
     /// ```
@@ -202,7 +202,7 @@ impl Window {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window = Window::default();
     /// assert_eq!(window.get_size().x, 800); assert_eq!(window.get_size().height, 640);
     /// ```
@@ -214,7 +214,7 @@ impl Window {
     /// 
     /// # Example
     ///
-    /// ```
+    /// ```ignore
     /// let window = Window::default();
     /// assert_eq!(window.get_width(), 800); // The width of the window is 800i32 by default.
     /// ```
@@ -226,7 +226,7 @@ impl Window {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window = Window::default();
     /// assert_eq!(window.get_height(), 640); // The height of the window is 600i32 by default
     /// ```
@@ -238,7 +238,7 @@ impl Window {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let hwnd = CreateWindowExW(0, "class", "Direct Game Engine Window", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 800, 640, null_mut(), null_mut(), null_mut());
     /// let window = window::from(hwnd);
     /// ```
@@ -265,9 +265,9 @@ impl Window {
 
     /// Retrieves the class of the window
     /// 
-    /// # Example 
-    ///
-    /// ```
+    /// # Example
+    /// 
+    /// ```ignore
     /// let window = Window::default();
     /// assert_eq!(window.get_class_name(), String::new()); // Window class is empty String by default.
     /// ```

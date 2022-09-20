@@ -2,7 +2,7 @@
 /// 
 /// # Example
 /// 
-/// ```
+/// ```ignore
 /// if manager.get_mouse_button(Button::LBUTTON) == Action::Release {
 ///     println!("Left mouse button is released");
 /// }
@@ -25,7 +25,7 @@ pub mod Button {
 /// 
 /// # Example
 /// 
-/// ```
+/// ```ignore
 /// if manager.get_key(Y) == Action::Down {
 ///     println!("Y key is down");
 /// }

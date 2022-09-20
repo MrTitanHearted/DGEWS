@@ -4,7 +4,7 @@
 
 //! # Example
 //! 
-//! ```
+//! ```rust,ignore
 //! let mut manager = Manager::new(WindowBuilder::default()
 //!         .with_title("Hello, World!")
 //!         .with_dimensions(1200, 1000)

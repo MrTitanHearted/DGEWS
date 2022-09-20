@@ -17,7 +17,7 @@ use crate::prelude::*;
 /// 
 /// # Example
 /// 
-/// ```
+/// ```ignore
 /// let mut manager = Manager::new(WindowBuilder::default());
 /// 
 /// manager.run(|events, control_flow, manager| {
@@ -72,7 +72,7 @@ impl Manager {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let manager = Manager::new(WindowBuilder::default()
     ///     .with_title("Hello, World!")
     ///     .with_dimensions(800, 640)
@@ -92,7 +92,7 @@ impl Manager {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let manager = Manager::new(WindowBuilder::default())
     ///     .ass_window("MyWindow", WindowBuilder::default()
     ///         .with_title("My Own new Extra WiNdOw")
@@ -110,7 +110,7 @@ impl Manager {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window = manager.window();
     /// println!("A window with id: {} has title of {}", window.get_id(), window.get_title());
     /// ```
@@ -122,7 +122,7 @@ impl Manager {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window = manager.mut_window();
     /// println!("A window with id: {} has title of {}", window.get_id(), window.get_title());
     /// 
@@ -137,7 +137,7 @@ impl Manager {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window = manager.get_window("YourWindowClassName");
     /// println!("A window with id: {} has title of {}", window.get_id(), window.get_title());
     /// ```
@@ -149,7 +149,7 @@ impl Manager {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let window = manager.get_mut_window("YourWindowClassName");
     /// println!("A window with id: {} has title of {}", window.get_id(), window.get_title());
     /// 
@@ -164,7 +164,7 @@ impl Manager {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let mut manager = Manager::new(WindowBuilder::default());
     /// 
     /// manager.run(|events, control_flow, manager| {
@@ -558,7 +558,7 @@ impl Manager {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// if manager.get_char(u) {
     ///     println!("small case u char is typed");
     /// } else if manager.get_char(T) {
@@ -573,7 +573,7 @@ impl Manager {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// if manager.get_key(TAB) == Action::Down {
     ///     println!("Tabbar is being pressed!");
     /// }
@@ -594,7 +594,7 @@ impl Manager {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// if manager.get_mouse_button(Button::MBUTTON) == Action::Press {
     ///     *control_flow = ControlFlow::Exit;
     /// } 
@@ -679,7 +679,7 @@ impl Manager {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// if manager.get_key(Key::ESCAPE) == Action::Release {
     ///     manager.close();
     /// }
@@ -692,7 +692,7 @@ impl Manager {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// println!("Time is {}", manager.time().1);
     /// ```
     pub fn time(&mut self) -> (f32, f32) {

@@ -4,7 +4,7 @@ use std::time::*;
 /// 
 /// # Example
 /// 
-/// ```
+/// ```ignore
 /// let mut timer = Timer::new();
 /// println!("Time: {}", time.time());
 /// 
@@ -23,7 +23,7 @@ impl Timer {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let timer = Timer::new();
     /// ```
     pub fn new() -> Self {
@@ -37,7 +37,7 @@ impl Timer {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let mut timer = Timer::new();
     /// 
     /// std::time::sleep(Duration::from_secs(5));
@@ -52,7 +52,7 @@ impl Timer {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let mut timer = Timer::new();
     /// std::time::sleep(Duration::from_secs(10));
     /// timer.update();
@@ -70,7 +70,7 @@ impl Timer {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let mut timer = Timer::new();
     /// assert_eq!(timer.current_frame(), 0.0);
     /// 
@@ -88,7 +88,7 @@ impl Timer {
     /// 
     /// # Example
     /// 
-    /// ```
+    /// ```ignore
     /// let mut timer = Timer::new();
     /// 
     /// for _ in .. {
