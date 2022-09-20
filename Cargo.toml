@@ -30,12 +30,3 @@ winapi = { version = "0.3.9", features = [
 
 [package.metadata.docs.rs]
 default-target = "x86_64-pc-windows-msvc"
-
-targets = [
-    "i686-pc-windows-gnu",
-    "i686-pc-windows-msvc",
-    "x86_64-pc-windows-msvc",
-    "x86_64-pc-windows-gnu",
-]
-
-cargo-args = ["-Z", "build-std"]
