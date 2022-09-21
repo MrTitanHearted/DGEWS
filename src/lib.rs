@@ -5,43 +5,45 @@
 //! # Example
 //! 
 //! ```rust,ignore
-//! let mut manager = Manager::new(WindowBuilder::default()
-//!         .with_title("Hello, World!")
-//!         .with_dimensions(1200, 1000)
-//!         .with_icon("myIcon.ico"))
-//!     .add_window("AnotherWindow", WindowBuilder::default()
-//!         .with_title("Another Window for Debugging")
-//!         .with_pos(600, 600)
-//!         .with_dimensions(640, 800)
+//! extern crate dgews;
+//! use dgews::prelude::*; // prelude module contains everything
+//! 
+//! fn main() {
+//!     let mut manager = Manager::new(WindowBuilder::default()
+//!         .with_title("DGEWS Window")
+//!         .with_dimensions(800, 640)
 //!         .with_theme(Theme::Dark));
+//!     
+//!     manager.run(|events, control_flow, manager| {
+//!         match events {
+//!             Events::WindowEvent { id, event } => match event {
+//!                 WindowEvents::Create => println!("[INFO]: a new window with id: {} has been created", manager.window().get_id()),
 //! 
-//! manager.run(|events, control_flow, manager| {
-//!     match events {
-//!         Events::WindowEvent { id, event } => match event {
-//!             WindowEvents::Close => if id == manager.get_window("AnotherWindow").get_id() {
-//!                 *control_flow = ControlFlow::Exit;
-//!             }
-//!             _=> {}
-//!         }
-//!         Events::KeyboardEvent { id: _, event } => match event {
-//!             KeyboardEvents::Key { keycode, action } => if keycode == Key::H && action == Action::Release {
-//!                 println!("A key is released!");    
-//!             }
-//!             _=> {}
-//!         }
-//!         Events::MouseEvent { id, event } => match event {
-//!             MouseEvents::LButton { action, pos } => if id == manager.window().get_id() && action == Action::Press {
-//!                 println!("Left mouse button is pressed on the window with id: {id} in the position of (x: {pos.x}, y: {pos.y})");
-//!             }
-//!             _=> {}
-//!         }
-//!         _=> {},
-//!     }
+//!                 WindowEvents::Close => {
+//!                     println!("[INFO]: a window with id: {} has been closed", manager.window().get_id());
+//!                     *control_flow => ControlFlow::Exit; // to exit with panicing, use ControlFlow::ExitWithCode(<your number>) instead.
+//!                 },
 //! 
-//!     if manager.get_key(Key::ESCAPE) == Action::Release {
-//!         manager.close();
-//!     }
-//! });
+//!                 _=> {}
+//!             },
+//! 
+//!             Events::MouseEvent { id, event } => match event {
+//!                 MouseEvents::MouseMove { x, y, last_x, last_y, dx, dy } => {
+//!                     println!("[INFO]: mouse moved in the window with id {}: x={}, y={}, last_x={}, last_y={} dx={} dy={};", manager.window().get_id(), x, y, last_x, last_y, dx, dy);
+//!                 },
+//!                 
+//!                 _=> {}
+//!             }
+//! 
+//!             _=> *control_flow = ControlFlow::Continue,
+//!         }
+//! 
+//!         if manager.get_key(Key::ESCAPE) == Action::Release {
+//!             println!("[INFO]: program is exiting");
+//!             manager.close(); // or *control_flow = ControlFlow::Exit;
+//!         }
+//!     });
+//! }
 //! ```
 
 pub(crate) mod keyboard;
