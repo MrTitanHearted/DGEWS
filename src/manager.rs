@@ -34,7 +34,7 @@ use crate::prelude::*;
 ///     }
 /// 
 ///     if manager.get_key(ESCAPE) == Action::Press {
-///         manager.close();
+///         *control_flow = ControlFlow::Exit;
 ///     }
 /// });
 /// ```
@@ -47,6 +47,7 @@ pub struct Manager {
     timer: Timer,
     sender: Sender<Events>,
     receiver: Receiver<Events>,
+    close: bool,
 }
 
 impl Default for Manager {
@@ -60,6 +61,7 @@ impl Default for Manager {
             builders: HashMap::default(),
             sender,
             receiver,
+            close: false,
         };
     }
 }
@@ -189,8 +191,9 @@ impl Manager {
             while let Ok(events) = self.try_recv() {
                 func(events, &mut control_flow, self);
                 match control_flow {
-                    ControlFlow::Continue => (),
+                    ControlFlow::Continue => {},
                     ControlFlow::Exit => {
+                        self.close = true;
                         break 'user_events_loop;
                     }
                     ControlFlow::ExitWithCode(exit_code) => {
@@ -205,8 +208,9 @@ impl Manager {
                 self,
             );
             match control_flow {
-                ControlFlow::Continue => (),
+                ControlFlow::Continue => {},
                 ControlFlow::Exit => {
+                    self.close = true;
                     break 'user_events_loop;
                 }
                 ControlFlow::ExitWithCode(exit_code) => {
@@ -236,11 +240,7 @@ impl Manager {
                     TranslateMessage(&msg);
                     DispatchMessageW(&msg);
 
-                    if msg.message == WM_QUIT {
-                        manager.send(Events::WindowEvent {
-                            id: 0usize,
-                            event: WindowEvents::Close,
-                        });
+                    if manager.close {
                         break;
                     }
                 }
@@ -252,7 +252,7 @@ impl Manager {
         match msg {
             WM_DESTROY => {
                 self.send(Events::WindowEvent {
-                    id: 0usize,
+                    id: hwnd as usize,
                     event: WindowEvents::Close,
                 });
                 PostQuitMessage(0);
@@ -542,16 +542,12 @@ impl Manager {
                 id: hwnd as usize,
                 event: WindowEvents::Create,
             });
-            manager.insert_window(hwnd);
+            let wnd = Window::from(hwnd);
+            manager.windows.insert(wnd.get_class_name(), wnd);
             return manager.wndproc(hwnd, msg, wparam, lparam);
         }
 
         return DefWindowProcW(hwnd, msg, wparam, lparam);
-    }
-
-    fn insert_window(&mut self, hwnd: HWND) {
-        let wnd = Window::from(hwnd);
-        self.windows.insert(wnd.get_class_name(), wnd);
     }
 
     /// Retrieves typed Keyboard buttons and keys. (Case sensitie!)
@@ -673,19 +669,6 @@ impl Manager {
 
     fn try_recv(&self) -> Result<Events, std::sync::mpsc::TryRecvError> {
         return self.receiver.try_recv();
-    }
-
-    /// Sends the Close message to the Events queue
-    /// 
-    /// # Example
-    /// 
-    /// ```ignore
-    /// if manager.get_key(Key::ESCAPE) == Action::Release {
-    ///     manager.close();
-    /// }
-    /// ```
-    pub fn close(&self) {
-        self.send(Events::WindowEvent { id: 0usize, event: WindowEvents::Close });
     }
 
     /// Retrieves the delta time and current frame

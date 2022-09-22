@@ -19,6 +19,8 @@ dgews="0.0.12"
 
 **DGEWS** usues the c++ win32 api library wrapper [_winapi_](https://crates.io/crates/winapi) to build its windows. Therefore, anyone else except for _Windows OS_ users cannot use this crate. Currently, this crate is not stable and crashes sometimes, that is why it is better not to use it in production (though I think nobody will use it while [_winit_](https://crates.io/crates/winit) crate is ready to use). But, if someone wants to use some of its features in their own projects, just take it as I have stated that it is only for educational purposes.
 
+----------------------------------------------------------------
+
 > ## Example
 
 **Manager** is a central point of this crate: it processes everything and users retrieve the event messages from it. Moreover, window or windows are created with that. The _run()_ method accepts a closure that must be called in each event and users will be given events, the manager itself as well as the control flow of that main events loop
@@ -59,11 +61,13 @@ fn main() {
 
         if manager.get_key(Key::ESCAPE) == Action::Release {
             println!("[INFO]: program is exiting");
-            manager.close(); // or *control_flow = ControlFlow::Exit;
+            *control_flow = ControlFlow::Exit;
         }
     });
 }
 ```
+
+----------------------------------------------------------------
 
 > ## Features
 
@@ -88,6 +92,8 @@ fn main() {
 * _Better documentation_: I think it has 'pretty nice' documentation. But still there is more to make it even better and more user-friendly.
 * _Fix the bugs_: I am working on the issues like with the system keys or the window not opening,
 
+----------------------------------------------------------------
+
 > ### Contributions
 
 Everyone is welcome who are willing to contribute even to the documentation. Thanks in advance.
@@ -97,7 +103,11 @@ Contact me via:
 * Or with google email address: abduqodirovmuhammadhon@gmail.com;
 * And my id in telegram: @MrTitanHearted;
 
+****************************************************************
+
 > I am a student of a lyceum that is why I think you won't get the response immediately, however, I will try my best to reply back as soon as possible.
+
+****************************************************************
 
 ## Licenses
 

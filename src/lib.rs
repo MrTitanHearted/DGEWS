@@ -40,7 +40,7 @@
 //! 
 //!         if manager.get_key(Key::ESCAPE) == Action::Release {
 //!             println!("[INFO]: program is exiting");
-//!             manager.close(); // or *control_flow = ControlFlow::Exit;
+//!             *control_flow = ControlFlow::Exit;
 //!         }
 //!     });
 //! }
