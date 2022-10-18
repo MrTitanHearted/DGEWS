@@ -39,14 +39,16 @@ impl Window {
     /// # Example
     /// 
     /// ```ignore
-    /// let window = Window::new(8);
+    /// let window = Window::new();
     /// assert_eq!(window.get_title(), String::from("Direct Game Engine Window"));
-    /// assert_eq!(window.get_id(), 8);
     /// ```
-    pub fn new(id: usize) -> Self {
-        let mut window: Self = Self::default();
-        window.hwnd = id as HWND;
-        return window;
+    pub fn new() -> Self {
+        return Self::default();
+    }
+
+    pub fn with_hwnd(mut self, hwnd: HWND) -> Self {
+        self.hwnd = hwnd;
+        return self;
     }
 
     /// Sets the title of that window

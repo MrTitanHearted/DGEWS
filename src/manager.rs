@@ -41,7 +41,6 @@ use crate::prelude::*;
 #[derive(Debug)]
 pub struct Manager {
     windows: HashMap<String, Window>,
-    builders: HashMap<String, WindowBuilder>,
     mouse: Mouse,
     keyboard: Keyboard,
     timer: Timer,
@@ -58,7 +57,6 @@ impl Default for Manager {
             timer: Timer::new(),
             keyboard: Keyboard::new(false),
             windows: HashMap::default(),
-            builders: HashMap::default(),
             sender,
             receiver,
             close: false,
@@ -82,12 +80,9 @@ impl Manager {
     ///     .with_icon("path\\to\\your\\icon\\.ico"));
     /// ```
     pub fn new(builder: WindowBuilder) -> Self {
-        let mut builders = HashMap::new();
-        builders.insert(Self::DGEWindowClassExWName.to_string(), builder);
-        return Self {
-            builders,
-            ..Default::default()
-        };
+        let mut manager = Manager::default();
+        manager.insert(Self::DGEWindowClassExWName, builder);
+        return manager;
     }
 
     /// Inserts a new window. You have to give each new extra window a class which is basically the same as 'key' in HashMap<T>. There should be no white spaces.
@@ -104,8 +99,35 @@ impl Manager {
     ///         .with_dimensions(60, 60));
     /// ```
     pub fn add_window(mut self, class: &str, builder: WindowBuilder) -> Self {
-        self.builders.insert(class.to_string(), builder);
+        self.insert(class, builder);
         return self;
+    }
+
+    fn insert(&mut self, class: &str, builder: WindowBuilder) {
+        let data = (self as *mut Self) as usize;
+        let class = class.to_string();
+
+        std::thread::spawn(move || unsafe {
+            let manager = (data as *mut Self).as_mut().unwrap();
+            let window = Window::register(&class, builder, data as *mut Self, Self::setup);
+            manager.windows.insert(class.to_string(), Window::from(window));
+
+            let mut msg = std::mem::zeroed();
+
+            loop {
+                manager.keyboard.clear();
+                manager.mouse.clear_keystates();
+
+                if PeekMessageW(&mut msg, window, 0, 0, PM_REMOVE) > 0 {
+                    TranslateMessage(&msg);
+                    DispatchMessageW(&msg);
+
+                    if manager.close || manager.windows.is_empty() {
+                        break;
+                    }
+                }
+            }
+        });
     }
 
     /// Returns a reference to the default window of the manager
@@ -116,7 +138,7 @@ impl Manager {
     /// let window = manager.window();
     /// println!("A window with id: {} has title of {}", window.get_id(), window.get_title());
     /// ```
-    pub fn window(&self) -> &Window {
+    pub fn window(&self) -> Option<&Window> {
         return self.get_window(Self::DGEWindowClassExWName);
     }
 
@@ -131,7 +153,7 @@ impl Manager {
     /// window.set_title("New Title");
     /// println!("A window with id: {} has title of {}", window.get_id(), window.get_title());
     /// ```
-    pub fn mut_window(&mut self) -> &mut Window {
+    pub fn mut_window(&mut self) -> Option<&mut Window> {
         return self.get_mut_window(Self::DGEWindowClassExWName);
     }
 
@@ -143,8 +165,8 @@ impl Manager {
     /// let window = manager.get_window("YourWindowClassName");
     /// println!("A window with id: {} has title of {}", window.get_id(), window.get_title());
     /// ```
-    pub fn get_window(&self, class: &str) -> &Window {
-        return self.windows.get(class).unwrap();
+    pub fn get_window(&self, class: &str) -> Option<&Window> {
+        return self.windows.get(class);
     }
 
     /// Returns a reference to a mut window with a specified class. Panics if there is no a window with that class!
@@ -158,8 +180,8 @@ impl Manager {
     /// window.set_title("New Title");
     /// println!("A window with id: {} has title of {}", window.get_id(), window.get_title());
     /// ```
-    pub fn get_mut_window(&mut self, class: &str) -> &mut Window {
-        return self.windows.get_mut(class).unwrap();
+    pub fn get_mut_window(&mut self, class: &str) -> Option<&mut Window> {
+        return self.windows.get_mut(class);
     }
 
     /// Runs the program. This function takes a closure as its parameter which then gives back events, control flow and manager itself. The windows are processed in their own threads outside the main thread so that your program will not wait until the events are finished.
@@ -183,8 +205,6 @@ impl Manager {
     where
         T: FnMut(Events, &mut ControlFlow, &mut Manager),
     {
-        self.spawn_window_thread();
-
         let mut control_flow = ControlFlow::default();
 
         'user_events_loop: loop {
@@ -222,32 +242,6 @@ impl Manager {
         }
     }
 
-    fn spawn_window_thread(&mut self) {
-        let thread_builders = self.builders.clone();
-        let thread_data = self as *mut Self as usize;
-        std::thread::spawn(move || unsafe {
-            for (class, builder) in thread_builders {
-                Window::register(&class, builder, thread_data as *mut Self, Self::setup);
-            }
-            let manager = (thread_data as *mut Self).as_mut().unwrap();
-
-            let mut msg = std::mem::zeroed();
-            loop {
-                manager.keyboard.clear();
-                manager.mouse.clear_keystates();
-
-                if PeekMessageW(&mut msg, 0 as HWND, 0, 0, PM_REMOVE) > 0 {
-                    TranslateMessage(&msg);
-                    DispatchMessageW(&msg);
-
-                    if manager.close {
-                        break;
-                    }
-                }
-            }
-        });
-    }
-
     unsafe fn wndproc(&mut self, hwnd: HWND, msg: UINT, wparam: WPARAM, lparam: LPARAM) -> LRESULT {
         match msg {
             WM_DESTROY => {
@@ -256,6 +250,7 @@ impl Manager {
                     event: WindowEvents::Close,
                 });
                 PostQuitMessage(0);
+                self.windows.remove(&Window::from(hwnd).get_class_name());
             }
 
             WM_MOUSEMOVE => {
@@ -542,8 +537,6 @@ impl Manager {
                 id: hwnd as usize,
                 event: WindowEvents::Create,
             });
-            let wnd = Window::from(hwnd);
-            manager.windows.insert(wnd.get_class_name(), wnd);
             return manager.wndproc(hwnd, msg, wparam, lparam);
         }
 
