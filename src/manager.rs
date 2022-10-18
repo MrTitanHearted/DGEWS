@@ -91,10 +91,10 @@ impl Manager {
     /// 
     /// ```ignore
     /// let manager = Manager::new(WindowBuilder::default())
-    ///     .ass_window("MyWindow", WindowBuilder::default()
+    ///     .add_window("MyWindow", WindowBuilder::default()
     ///         .with_title("My Own new Extra WiNdOw")
     ///         .with_theme(Theme::Dark));
-    ///     .ass_window("AnotherWindow", WindowBuilder::default()
+    ///     .add_window("AnotherWindow", WindowBuilder::default()
     ///         .with_title("Another tiny one as well")
     ///         .with_dimensions(60, 60));
     /// ```
