@@ -6,7 +6,7 @@ use winapi::{
 
 use crate::prelude::*;
 
-/// A handle that holds information of a window
+/// A handle that holds information about a window
 ///
 /// # Example
 ///

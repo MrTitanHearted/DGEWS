@@ -900,4 +900,19 @@ impl Manager {
     pub fn time(&mut self) -> (f32, f32) {
         return (self.timer.current_frame, self.timer.dt());
     }
+
+    /// If all the windows are closed returns true else return false
+    ///
+    /// # Example
+    ///
+    /// ```ignore
+    /// println!("Has all the windows been closed: {}", manager.all_closed());
+    /// ```
+    pub fn all_closed(&self) -> bool {
+        if self.windows.len() == 0 {
+            false
+        } else {
+            true
+        }
+    }
 }
