@@ -91,6 +91,7 @@ fn main() {
 * _Themes_: there is now only light and dark themes;
 * _~~Ready~~ events processing_: it actually needs some work there 🤷‍♂️;
 * _Easy_: a glance of attention to the [_documentation_](https://docs.rs/dgews/latest/dgews/) is enough to utilize the crate;
+* _HasRawWindowHandle_ and _HasRawDisplayHandle_ traits are implemeneted so that you can use them with other crates such as wgpu-rs;
 
 ### and its glitches and shortcomings
 
