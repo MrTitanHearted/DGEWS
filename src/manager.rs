@@ -910,9 +910,9 @@ impl Manager {
     /// ```
     pub fn all_closed(&self) -> bool {
         if self.windows.len() == 0 {
-            false
-        } else {
             true
+        } else {
+            false
         }
     }
 }
