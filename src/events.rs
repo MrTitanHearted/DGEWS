@@ -44,11 +44,11 @@ pub enum Action {
 #[derive(Copy, Clone, Default, Debug, PartialEq)]
 pub enum Events {
     /// WindowEvents such as moving window or changing the size
-    WindowEvent { id: usize, event: WindowEvents },
+    WindowEvents { id: usize, event: WindowEvents },
     /// KeyboardEvents like pressing Left Shift button
-    KeyboardEvent { id: usize, event: KeyboardEvents },
+    KeyboardEvents { id: usize, event: KeyboardEvents },
     /// MouseEvents. For example, releasing Right Mouse Button or scrolling up and down
-    MouseEvent { id: usize, event: MouseEvents },
+    MouseEvents { id: usize, event: MouseEvents },
     /// Idle form which means nothing is happening
     #[default]
     None,
@@ -169,4 +169,41 @@ pub enum MouseEvents {
     X2Button { action: Action, pos: Point },
     /// Sent when a cursor is moved from one point to another where x is new x position, y is new y position, last_x is last x position, last_y is last y position, dx is delta x (x - last_x) and dy is delta y (y - last_y)
     MouseMove { x: i16, y: i16, last_x: i16, last_y: i16, dx: i16, dy: i16 },
+}
+
+#[derive(Copy, Clone, Default, Debug, PartialEq)]
+pub(crate) enum MainEvents {
+    MainWindowEvent { id: usize, event: MainWindowEvents },
+    MainKeyboardEvent { id: usize, event: MainKeyboardEvents },
+    MainMouseEvent { id: usize, event: MainMouseEvents },
+    #[default]
+    None,
+}
+
+#[derive(Copy, Clone, Debug, PartialEq)]
+pub(crate) enum MainWindowEvents {
+    Create,
+    Close,
+    Maximized { width: i32, height: i32 },
+    Minimized { width: i32, height: i32 },
+    FramebufferChanged { width: i32, height: i32 },
+    Moved { x: i32, y: i32 },
+    SetFocus,
+    LostFocus,
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub(crate) enum MainKeyboardEvents {
+    Key { up: bool, is_changed: bool, keycode: usize },
+    Char { keycode: usize },
+}
+
+#[derive(Debug, Copy, Clone, PartialEq)]
+pub(crate) enum MainMouseEvents {
+    Scroll { y_offset: i16 },
+    LButton { up: bool, pos: Point },
+    RButton { up: bool, pos: Point },
+    MButton { up: bool, pos: Point },
+    XButton { up: bool, wparam: u32, pos: Point },
+    MouseMove { x: i16, y: i16 },
 }

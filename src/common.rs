@@ -1,4 +1,9 @@
-use std::fmt::Display;
+use std::{
+    fmt::Display,
+    sync::mpsc::{channel, Receiver, Sender, TryRecvError},
+};
+
+use crate::prelude::MainEvents;
 
 /// # Wide String
 ///
@@ -408,5 +413,48 @@ impl std::fmt::Display for Theme {
             Self::Dark => write!(f, "Theme::Dark"),
             Self::Light => write!(f, "Theme::Light"),
         }
+    }
+}
+
+#[derive(Debug)]
+pub(crate) struct Messenger {
+    receiver: Option<Receiver<MainEvents>>,
+    sender: Sender<MainEvents>,
+}
+
+impl Default for Messenger {
+    fn default() -> Self {
+        let (sender, receiver) = channel();
+
+        Self {
+            receiver: Some(receiver),
+            sender: sender,
+        }
+    }
+}
+
+impl Messenger {
+    pub(crate) fn new() -> Self {
+        let (sender, receiver) = channel();
+
+        Self {
+            receiver: Some(receiver),
+            sender,
+        }
+    }
+
+    pub(crate) fn clone(&self) -> Self {
+        Self {
+            receiver: None,
+            sender: self.sender.clone(),
+        }
+    }
+
+    pub(crate) fn try_recv(&self) -> Result<MainEvents, TryRecvError> {
+        self.receiver.as_ref().unwrap().try_recv()
+    }
+
+    pub(crate) fn send(&self, events: MainEvents) {
+        self.sender.send(events).unwrap();
     }
 }
