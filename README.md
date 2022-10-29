@@ -115,11 +115,11 @@ Contact me via:
 * Or with google email address: abduqodirovmuhammadhon@gmail.com;
 * And my id in telegram: @MrTitanHearted;
 
-****************************************************************;
+----------------------------------------------------------------
 
 > I am a student of a lyceum that is why I think you won't get the response immediately, however, I will try my best to reply back as soon as possible.
 
-****************************************************************;
+----------------------------------------------------------------
 
 ## Licenses
 
