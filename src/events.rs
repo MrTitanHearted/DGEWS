@@ -1,9 +1,9 @@
 use crate::common::Point;
 
 /// The state of the buttons such as being pressed or released or none as well
-/// 
+///
 /// # Example
-/// 
+///
 /// ```ignore
 /// if manager.get_key(A) == Action::Release {
 ///     println!("A key is released");
@@ -22,12 +22,12 @@ pub enum Action {
 }
 
 /// Main central Events that are sent by the window or windows via Manager sturct
-/// 
+///
 /// # Example
-/// 
+///
 /// ```ignore
 /// let mut manager = Manager::new(WindowBuilder::default());
-/// 
+///
 /// manager.run(|events, control_flow, _| {
 ///     match events => {
 ///         Events::WindowEvent { id, event } match event {
@@ -55,12 +55,12 @@ pub enum Events {
 }
 
 /// Specific window events
-/// 
+///
 /// # Example
-/// 
+///
 /// ```ignore
 /// let mut manager = Manager::new(WindowBuilder::default());
-/// 
+///
 /// manager.run(|events, control_flow, _| {
 ///     match events => {
 ///         Events::WindowEvent { id, event } match event {
@@ -98,12 +98,12 @@ pub enum WindowEvents {
 }
 
 /// Specific keyboard events
-/// 
+///
 /// # Exapmle
-/// 
+///
 /// ```
 /// let mut manager = Manager::new(WindowBuilder::default());
-/// 
+///
 /// manager.run(|events, control_flow, _| {
 ///     match events => {
 ///         Events::WindowEvent { id, event } match event {
@@ -131,12 +131,12 @@ pub enum KeyboardEvents {
 }
 
 /// Specific mouse events
-/// 
+///
 /// # Example
-/// 
+///
 /// ```ignore
 /// let mut manager = Manager::new(WindowBuilder::default());
-/// 
+///
 /// manager.run(|events, control_flow, _| {
 ///     match events => {
 ///         Events::WindowEvent { id, event } match event {
@@ -168,14 +168,30 @@ pub enum MouseEvents {
     /// Sent when a x mouse button 2 is pressed, released or down
     X2Button { action: Action, pos: Point },
     /// Sent when a cursor is moved from one point to another where x is new x position, y is new y position, last_x is last x position, last_y is last y position, dx is delta x (x - last_x) and dy is delta y (y - last_y)
-    MouseMove { x: i16, y: i16, last_x: i16, last_y: i16, dx: i16, dy: i16 },
+    MouseMove {
+        x: i16,
+        y: i16,
+        last_x: i16,
+        last_y: i16,
+        dx: i16,
+        dy: i16,
+    },
 }
 
 #[derive(Copy, Clone, Default, Debug, PartialEq)]
 pub(crate) enum MainEvents {
-    MainWindowEvent { id: usize, event: MainWindowEvents },
-    MainKeyboardEvent { id: usize, event: MainKeyboardEvents },
-    MainMouseEvent { id: usize, event: MainMouseEvents },
+    MainWindowEvent {
+        id: usize,
+        event: MainWindowEvents,
+    },
+    MainKeyboardEvent {
+        id: usize,
+        event: MainKeyboardEvents,
+    },
+    MainMouseEvent {
+        id: usize,
+        event: MainMouseEvents,
+    },
     #[default]
     None,
 }
@@ -194,8 +210,14 @@ pub(crate) enum MainWindowEvents {
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum MainKeyboardEvents {
-    Key { up: bool, is_changed: bool, keycode: usize },
-    Char { keycode: usize },
+    Key {
+        up: bool,
+        is_changed: bool,
+        keycode: usize,
+    },
+    Char {
+        keycode: usize,
+    },
 }
 
 #[derive(Debug, Copy, Clone, PartialEq)]

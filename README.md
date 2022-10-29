@@ -1,6 +1,6 @@
-> # [DGEWS](https://github.com/MrTitanHearted/dgews)
+# [DGEWS](https://github.com/MrTitanHearted/dgews)
 
-[![DGEWS](https://img.shields.io/crates/v/dgews?label=dgews)](https://crates.io/crates/dgews/) ![DGEWS](https://img.shields.io/crates/l/dgews)
+[![DGEWS](https://img.shields.io/badge/dgews-v0.1.1-important)](https://crates.io/crates/dgews/) ![DGEWS](https://img.shields.io/crates/l/dgews)
 
 **_DGEWS_** is a simple multithreaded toy windowing system for only learning purposes.
 
@@ -31,26 +31,38 @@ use dgews::prelude::*; // prelude module contains everything
 
 fn main() {
     let mut manager = Manager::new(WindowBuilder::default()
-        .with_title("DGEWS Window")
-        .with_dimensions(800, 640)
-        .with_theme(Theme::Dark));
-    
+            .with_title("DGEWS Window")
+            .with_dimensions(800, 640)
+            .with_theme(Theme::Dark)
+            .with_resizable(true))
+        .add_window("Hooray", WindowBuilder::new()
+            .with_title("Finally")
+            .with_dimensions(400, 300)
+            .with_theme(Theme::Dark)
+            .with_pos(700, 700));
+
+    let _hwnd = manager.window().unwrap();
+
     manager.run(|events, control_flow, manager| {
         match events {
-            Events::WindowEvent { id, event } => match event {
-                WindowEvents::Create => println!("[INFO]: a new window with id: {} has been created", manager.window().get_id()),
+            Events::WindowEvents { id, event } => match event {
+                WindowEvents::Create => println!("[INFO]: a new window with id: {} has been created", id),
 
                 WindowEvents::Close => {
-                    println!("[INFO]: a window with id: {} has been closed", manager.window().get_id());
-                    *control_flow => ControlFlow::Exit; // to exit with panicing, use ControlFlow::ExitWithCode(<your number>) instead.
+                    println!("[INFO]: a window with id: {} has been closed", id);
+                    *control_flow = ControlFlow::Exit; // to exit with panicing, use ControlFlow::ExitWithCode(<your number>) instead.
                 },
+
+                WindowEvents::SetFocus => println!("[INFO]: window with id: {} gained the focus", id),
+
+                WindowEvents::LostFocus => println!("[INFO]: window with id: {} Lost the focus", id),
 
                 _=> {}
             },
 
-            Events::MouseEvent { id, event } => match event {
+            Events::MouseEvents { id: _, event } => match event {
                 MouseEvents::MouseMove { x, y, last_x, last_y, dx, dy } => {
-                    println!("[INFO]: mouse moved in the window with id {}: x={}, y={}, last_x={}, last_y={} dx={} dy={};", manager.window().get_id(), x, y, last_x, last_y, dx, dy);
+                    println!("[INFO]: mouse moved in the window with id {}: x={}, y={}, last_x={}, last_y={} dx={} dy={};", manager.window().unwrap().get_id(), x, y, last_x, last_y, dx, dy);
                 },
                 
                 _=> {}
@@ -84,7 +96,7 @@ fn main() {
 
 * _Not ready yet_: it is only in alpha mode;
 * _System keys error_: I don't know why but some system keys such as Alt key are not working properly;
-* **_Crashes_**: actually the reason I like rust lang is because it is very fast and safe at the time. However, I think due to the multithread, I have lost that feature of having something working 100% all the time;
+* **_Crashes_**: actually the reason I like rust lang is because it is very fast and safe at the time. However, I think due to the lack of my experience in multithreaded programming, I have lost that feature of having something working 100% all the time;
 * _Not cross-platform_: I have used the Windows api crate, so no cross-platform support 😔;
 
 ### plans
@@ -103,11 +115,11 @@ Contact me via:
 * Or with google email address: abduqodirovmuhammadhon@gmail.com;
 * And my id in telegram: @MrTitanHearted;
 
-****************************************************************
+****************************************************************;
 
 > I am a student of a lyceum that is why I think you won't get the response immediately, however, I will try my best to reply back as soon as possible.
 
-****************************************************************
+****************************************************************;
 
 ## Licenses
 

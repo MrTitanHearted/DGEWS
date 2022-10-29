@@ -120,10 +120,11 @@ impl Manager {
         std::thread::spawn(move || unsafe {
             let window = Window::register(&class, builder, &msger as *const Messenger, Self::setup);
 
-            let not_added = (p_added as *mut bool).as_mut().unwrap();
-            *not_added = true;
             let hwnd = (p_hwnd as *mut HWND).as_mut().unwrap();
             *hwnd = window;
+
+            let not_added = (p_added as *mut bool).as_mut().unwrap();
+            *not_added = true;
 
             let mut msg = std::mem::zeroed();
             loop {
