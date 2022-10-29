@@ -358,14 +358,20 @@ impl Window {
     }
 }
 
-pub use raw_window_handle::{HasRawWindowHandle, RawWindowHandle, Win32WindowHandle};
+pub use raw_window_handle::{HasRawDisplayHandle, HasRawWindowHandle};
 
 unsafe impl HasRawWindowHandle for Window {
     fn raw_window_handle(&self) -> raw_window_handle::RawWindowHandle {
-        let mut hwnd = Win32WindowHandle::empty();
+        let mut hwnd = raw_window_handle::Win32WindowHandle::empty();
         hwnd.hwnd = self.hwnd.cast();
         hwnd.hinstance = unsafe { GetModuleHandleW(std::ptr::null()).cast() };
 
-        RawWindowHandle::Win32(hwnd)
+        raw_window_handle::RawWindowHandle::Win32(hwnd)
+    }
+}
+
+unsafe impl HasRawDisplayHandle for Window {
+    fn raw_display_handle(&self) -> raw_window_handle::RawDisplayHandle {
+        raw_window_handle::RawDisplayHandle::Windows(raw_window_handle::WindowsDisplayHandle::empty())
     }
 }

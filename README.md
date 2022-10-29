@@ -1,12 +1,12 @@
 # [DGEWS](https://github.com/MrTitanHearted/dgews)
 
-[![DGEWS](https://img.shields.io/badge/dgews-v0.1.3-important)](https://crates.io/crates/dgews/) ![DGEWS](https://img.shields.io/crates/l/dgews)
+[![DGEWS](https://img.shields.io/badge/dgews-v0.1.4-important)](https://crates.io/crates/dgews/) ![DGEWS](https://img.shields.io/crates/l/dgews)
 
 **_DGEWS_** is a simple multithreaded toy windowing system for only learning purposes.
 
 ```toml
 [dependencies]
-dgews="0.1.3"
+dgews="0.1.4"
 ```
 
 ----------------------------------------------------------------
