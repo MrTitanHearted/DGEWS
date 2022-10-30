@@ -275,6 +275,17 @@ impl Manager {
                             is_changed,
                             keycode,
                         } => {
+                            if keycode == Key::ALT {
+                                println!("Alt up: {}, changed: {}, keycode: {}, is_down: {}, is_changed: {}, is_released: {}", up, is_changed, keycode, self.keyboard.is_down(keycode), self.keyboard.is_changed(keycode), self.keyboard.is_released(keycode));
+
+                                Events::KeyboardEvents {
+                                    id,
+                                    event: KeyboardEvents::Key {
+                                        keycode,
+                                        action: Action::Release,
+                                    },
+                                }
+                            } else
                             if up {
                                 self.keyboard.set_is_down(keycode, false);
                                 self.keyboard.set_is_changed(keycode, true);
