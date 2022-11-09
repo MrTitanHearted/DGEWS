@@ -512,20 +512,6 @@ impl Manager {
                     }
                 }
             }
-            self.keyboard.clear();
-            self.mouse.clear_keystates();
-
-            func(Events::default(), &mut control_flow, self);
-            match control_flow {
-                ControlFlow::Continue => {}
-                ControlFlow::Exit => {
-                    self.close = true;
-                    break 'user_events_loop;
-                }
-                ControlFlow::ExitWithCode(exit_code) => {
-                    panic!("Exit with code {}", exit_code);
-                }
-            }
 
             control_flow = ControlFlow::Continue;
         }
