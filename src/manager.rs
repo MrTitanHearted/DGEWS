@@ -268,6 +268,10 @@ impl Manager {
                             id,
                             event: WindowEvents::LostFocus,
                         },
+                        MainWindowEvents::RedrawRequested => Events::WindowEvents {
+                            id,
+                            event: WindowEvents::RedrawRequested,
+                        }
                     },
                     MainEvents::MainKeyboardEvent { id, event } => match event {
                         MainKeyboardEvents::Key {
@@ -493,7 +497,6 @@ impl Manager {
                             }
                         }
                     },
-                    MainEvents::None => Events::None,
                 };
 
                 func(events, &mut control_flow, self);
@@ -745,9 +748,14 @@ impl Manager {
                 });
             }
 
-            _ => {
-                msger.send(MainEvents::default());
+            WM_PAINT => {
+                msger.send(MainEvents::MainWindowEvent {
+                    id: hwnd as usize,
+                    event: MainWindowEvents::RedrawRequested,
+                });
             }
+
+            _ => {}
         }
 
         return DefWindowProcW(hwnd, msg, wparam, lparam);

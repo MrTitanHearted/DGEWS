@@ -282,6 +282,30 @@ impl Window {
         }
     }
 
+    /// Sends redrawing request message to the manager
+    /// 
+    /// # Example
+    /// 
+    /// ```ignore
+    /// manager.run(|events, control_flow, manager| {
+    ///     match events {
+    ///         WindowEvents { id, event } => match event {
+    ///             WindowEvents::RedrawRequested => { .. },
+    /// 
+    ///             _=> {}
+    ///         }
+    ///         _=> {}
+    ///     }
+    /// 
+    ///     manager.window().request_redraw();
+    /// });
+    /// ```
+    pub fn request_redraw(&self) {
+        unsafe {
+            RedrawWindow(self.hwnd, std::ptr::null_mut(), std::ptr::null_mut(), RDW_INTERNALPAINT);
+        }
+    }
+
     pub fn get_hwnd_class_name(hwnd: HWND) -> String {
         unsafe {
             let mut class = Vec::with_capacity(512);

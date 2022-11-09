@@ -1,6 +1,6 @@
 # [DGEWS](https://github.com/MrTitanHearted/dgews)
 
-[![DGEWS](https://img.shields.io/badge/dgews-v0.1.4-important)](https://crates.io/crates/dgews/) ![DGEWS](https://img.shields.io/crates/l/dgews)
+[![DGEWS](https://img.shields.io/badge/dgews-v0.1.5-important)](https://crates.io/crates/dgews/) ![DGEWS](https://img.shields.io/crates/l/dgews)
 
 **_DGEWS_** is a simple multithreaded toy windowing system for only learning purposes.
 
@@ -40,8 +40,6 @@ fn main() {
             .with_dimensions(400, 300)
             .with_theme(Theme::Dark)
             .with_pos(700, 700));
-
-    let _hwnd = manager.window().unwrap();
 
     manager.run(|events, control_flow, manager| {
         match events {
@@ -89,15 +87,14 @@ fn main() {
 * _Winit stylish style_: when I saw the winit crate first time, I really liked it for its structure. Thus, I decided to make something that resembles it;
 * _Icons_: users can use their own icons;
 * _Themes_: there is now only light and dark themes;
-* _~~Ready~~ events processing_: it actually needs some work there 🤷‍♂️;
-* _Easy_: a glance of attention to the [_documentation_](https://docs.rs/dgews/latest/dgews/) is enough to utilize the crate;
+* _Ready events processing_: it actually needs some work there so do not hestitate if you have any suggestions or ideas;
+* _Easy_: a glance of attention to the [_documentation_](https://docs.rs/dgews/latest/dgews/) is enough to get the hang of everything;
 * _HasRawWindowHandle_ and _HasRawDisplayHandle_ traits are implemeneted so that you can use them with other crates such as wgpu-rs;
 
-### and its glitches and shortcomings
+### Not implemented yet (in other words **features**)
 
-* _Not ready yet_: it is only in alpha mode;
-* _System keys error_: I don't know why but some system keys such as Alt key are not working properly;
-* **_Crashes_**: actually the reason I like rust lang is because it is very fast and safe at the time. However, I think due to the lack of my experience in multithreaded programming, I have lost that feature of having something working 100% all the time;
+* _Not ready yet_: it is only in _beta_ mode;
+* _System keys error_: I don't know why but some system keys such as Alt key are not working properly. In order to get **Action::Press** you have to press it twice!;
 * _Not cross-platform_: I have used the Windows api crate, so no cross-platform support 😔;
 
 ### plans

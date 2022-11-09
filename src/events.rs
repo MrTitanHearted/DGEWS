@@ -95,6 +95,8 @@ pub enum WindowEvents {
     SetFocus,
     /// Sent when a window has lost the focus
     LostFocus,
+    /// Sent when redrawing window
+    RedrawRequested,
 }
 
 /// Specific keyboard events
@@ -178,7 +180,7 @@ pub enum MouseEvents {
     },
 }
 
-#[derive(Copy, Clone, Default, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq)]
 pub(crate) enum MainEvents {
     MainWindowEvent {
         id: usize,
@@ -192,8 +194,6 @@ pub(crate) enum MainEvents {
         id: usize,
         event: MainMouseEvents,
     },
-    #[default]
-    None,
 }
 
 #[derive(Copy, Clone, Debug, PartialEq)]
@@ -206,6 +206,7 @@ pub(crate) enum MainWindowEvents {
     Moved { x: i32, y: i32 },
     SetFocus,
     LostFocus,
+    RedrawRequested,
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
